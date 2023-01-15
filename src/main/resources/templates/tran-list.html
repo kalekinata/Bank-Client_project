@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymelesf.org">
+<head>
+    <title>Список транзакций</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" />
+</head>
+<body>
+<div th:replace="header :: header"/>
+<div class="container">
+  <h1>Список транзакций</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Дата создания</th>
+            <th>Идентификатор отправителя</th>
+            <th>Идентификатор получателя</th>
+            <th>Регион создания</th>
+            <th>Сумма транзакции</th>
+            <th>Тип транзакции</th>
+            <th>Статус транзакции</th>
+            <th>Статус проверки</th>
+            <th/>
+        </tr>
+        </thead>
+        <tbody th:each ="el : ${transactions}" class="alert">
+        <tr>
+            <td th:text="${el.dadd}" />
+            <td th:text="${#strings.substring(el.accid_send,0,5)}" />
+            <td th:text="${#strings.substring(el.accid_recip,0,5)}" />
+            <td th:text="${el.region}" />
+            <td th:text="${el.sum}" />
+            <td th:text="${el.type}" />
+            <td th:text="${el.status}" />
+            <td th:text="${el.status_check}" />
+            <td><a th:if="${el.status != 'success' and el.status != 'cancel'}" th:href="'/transaction/'+${el.id}">Проверка</a>
+                <a th:if="${el.status == 'success' or el.status == 'cancel'}" th:href="'/transaction/'+${el.id}">Сведения</a>
+                <br>
+                <a th:href="'/transaction/statistics/'+${el.clid}">Статистика</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

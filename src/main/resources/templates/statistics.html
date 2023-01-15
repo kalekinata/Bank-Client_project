@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymelesf.org">
+<head>
+  <title>Список транзакций</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" />
+</head>
+<body>
+<div th:replace="header :: header"/>
+<div class="container">
+  <h1>Список транзакций клиента</h1>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>№</th>
+      <th>Дата создания</th>
+      <th>Счёт отправителя</th>
+      <th>Счёт получателя</th>
+      <th>Тип транзакции</th>
+      <th>Сумма транзакции</th>
+      <th>Комиссия по транзакции</th>
+      <th>Регион создания</th>
+      <th>Статус транзакции</th>
+      <th>Статус проверки</th>
+    </tr>
+    </thead>
+    <tbody th:each ="tr : ${transactions}" class="alert">
+    <tr>
+      <td th:text="${#strings.substring(tr.id,0,5)}" />
+      <td th:text="${tr.dadd}" />
+      <td th:text="${#strings.substring(tr.accid_send,0,5)}" />
+      <td th:text="${#strings.substring(tr.accid_recip,0,5)}" />
+      <td th:text="${tr.type}" />
+      <td th:text="${tr.sum}" />
+      <td th:text="${tr.commission}" />
+      <td th:text="${tr.region}" />
+      <td th:text="${tr.status}" />
+      <div th:each ="ft : ${fraud}">
+        <td th:if="${tr.id == ft.trid}" th:text="${ft.status_check}" />
+      </div>
+      <div th:each ="ftd : ${fraud}">
+        <td th:if="${tr.id == ftd.trid}" th:text="${ftd.description}"  th:style="'color:'+@{${ftd.description}}+'; font-weight:bold'"/>
+      </div>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

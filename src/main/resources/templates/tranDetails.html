@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymelesf.org">
+<head>
+    <title>Список транзакций</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" />
+    <style>
+        p {padding: 0px 15px; margin:0px;}
+        h6 {font-size: 18px; margin-bottom: 10px;}
+        .container{margin-top: 2%;}
+        .client p {padding: 0px 5px;}
+    </style>
+
+</head>
+<body>
+<div th:replace="header :: header"/>
+<div class="container">
+    <p th:text="${error}"/>
+    <div th:each ="tr : ${tran}">
+        <div style="display:flex">
+            <h6>Дата создания</h6>
+            <p th:text="${tr.dadd}" />
+        </div>
+        <div style="display:flex">
+            <h6>Регион создания</h6>
+            <p th:text="${tr.region}"/>
+        </div>
+        <div style="display:flex">
+            <h6>Сумма транзакции</h6>
+            <p th:text="${tr.sum}"/>
+        </div>
+        <div style="display:flex">
+            <h6>Комиссия</h6>
+            <p th:text="${tr.commission}"/>
+        </div>
+        <div style="display:flex">
+            <h6>Статус выполнения транзакции</h6>
+            <p id="status" th:text="${tr.status}"/>
+        </div>
+        <div style="display:flex">
+            <h6>Статус проверки</h6>
+            <p id="check" th:text="${tr.status_check}"/>
+        </div>
+        <div style="display:flex">
+            <h6>Отправитель</h6>
+            <div th:each ="clS : ${clSend}" style="display:flex" class="client">
+                <p th:text="${clS.name}" />
+                <p th:text="${clS.patronymic}" />
+                <p th:text="${clS.surname}" />
+            </div>
+        </div>
+        <div style="display:flex">
+            <h6>Получатель</h6>
+            <div th:each ="clR : ${clRecip}" style="display: flex" class="client">
+                <p th:text="${clR.name}" />
+                <p th:text="${clR.patronymic}" />
+                <p th:text="${clR.surname}" />
+            </div>
+        </div>
+        <form th:if="${tr.status != 'success' and tr.status != 'cancel'}" method="post">
+            <button type="submit" id="btnA" name="button" value="success" style="color: #4c715b">Одобрить</button>
+            <button type="submit" id="btnC" name="button" value="cancel" style="color: #e08156">Отменить</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
